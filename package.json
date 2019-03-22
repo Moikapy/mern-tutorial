@@ -2,37 +2,14 @@
   "name": "mern-tutorial",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.4.19",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8",
-    "validator": "^10.11.0"
-  },
-    "devDependencies": {
-      "nodemon":"^1.18.10"
-    },
   "scripts": {
-    "server":"nodemon",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "backend:install": "npm install --prefix backend",
+    "frontend:install": "npm install --prefix frontend",
+    "server": "npm run server:dev --prefix backend",
+    "frontend": "npm start --prefix frontend",
+    "start": "concurrently \"npm run server\" \"npm run frontend\""
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "main": "server.js"
+  "dependencies": {
+    "concurrently": "^4.1.0"
+  }
 }
