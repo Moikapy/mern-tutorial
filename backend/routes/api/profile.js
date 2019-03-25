@@ -188,14 +188,17 @@ router.post(
 // @access Private
 router.post(
   "/experience",
-  passport.authenticate("jwt", {
-    session: false
-  }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateExperienceInput(req.body);
-    Profile.findOne({
-      user: req.user.id
-    }).then(profile => {
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id }).then(profile => {
       const newExp = {
         title: req.body.title,
         company: req.body.company,
@@ -206,13 +209,13 @@ router.post(
         description: req.body.description
       };
 
-      // Add to exp Array
+      // Add to exp array
       profile.experience.unshift(newExp);
+
       profile.save().then(profile => res.json(profile));
     });
   }
 );
-
 // @route POST api/profile/education
 // @desc add education to profile
 // @access Private
@@ -223,6 +226,12 @@ router.post(
   }),
   (req, res) => {
     const { errors, isValid } = validateEducationInput(req.body);
+    //check Validation
+    if (!isValid) {
+      // If any errors, sen 400 w/ errors object
+      return res.status(400).json(errors);
+    }
+
     Profile.findOne({
       user: req.user.id
     }).then(profile => {
